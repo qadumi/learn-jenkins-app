@@ -8,13 +8,7 @@ pipeline {
                     image 'node:18-alpine'
                     reuseNode true
                 }
-        stage('Test') {
-             sh '''
-                echo 'Test stage'
-                '''
-                }
             }
-        }
             }
             steps {
                 sh '''
@@ -26,4 +20,11 @@ pipeline {
                 ls -la
                 '''
             }
+}
+stage ('Test') {
+    steps {
+        echo 'Test stage'
+    }
+}
+}
 }
