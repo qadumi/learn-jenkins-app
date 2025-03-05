@@ -9,8 +9,7 @@ pipeline {
                     reuseNode true
                 }
         stage('Test') {
-            agent {
-                docker {
+             steps {
                 echo 'Test stage'
                 }
             }
