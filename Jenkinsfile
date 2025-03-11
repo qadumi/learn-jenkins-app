@@ -3,6 +3,7 @@ pipeline {
 
     stages {
         /*
+
         stage('Build') {
             agent {
                 docker {
@@ -10,15 +11,14 @@ pipeline {
                     reuseNode true
                 }
             }
-            
             steps {
                 sh '''
-                ls -la
-                node --version
-                npm --version
-                npm ci
-                npm run build
-                ls -la
+                    ls -la
+                    node --version
+                    npm --version
+                    npm ci
+                    npm run build
+                    ls -la
                 '''
             }
         }
@@ -31,27 +31,29 @@ pipeline {
                     reuseNode true
                 }
             }
+
             steps {
-                // Install dependencies including jest-junit
-                sh 'npm install'
-                // Run the tests and generate the JUnit report
-                sh 'npm test'
+                sh '''
+                    #test -f build/index.html
+                    npm test
+                '''
             }
         }
 
         stage('E2E') {
             agent {
                 docker {
-                    image 'mcr.microsoft.com/playwright:v1.51.0-jammy'
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
                     reuseNode true
                 }
             }
+
             steps {
                 sh '''
-                npm install serve
-                node_modules/.bin/serve -s build &
-                sleep 10
-                npx playwright test --reporter=junit --output=playwright-report
+                    npm install serve
+                    node_modules/.bin/serve -s build &
+                    sleep 10
+                    npx playwright test
                 '''
             }
         }
@@ -59,7 +61,7 @@ pipeline {
 
     post {
         always {
-            junit 'playwright-report/**/*.xml'  // Adjusted to match Playwright's output
+            junit 'jest-results/junit.xml'
         }
     }
 }
