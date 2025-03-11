@@ -49,7 +49,7 @@ stage ('E2E') {
             npm install serve
             node_modules/.bin/serve -s build &
             sleep 10
-            npm playwright test
+            npx playwright test
         '''
     }
 }
