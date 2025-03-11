@@ -40,9 +40,7 @@ pipeline {
 stage ('E2E') {
         agent {
                 docker {
-withDockerContainer(image: 'mcr.microsoft.com/playwright:v1.51.0-noble', args: '--user root') {
-    sh 'npx playwright install --with-deps'
-    }
+                    image 'mcr.microsoft.com/playwright:v1.39.0-noble'
                     reuseNode true
                 }
             }
