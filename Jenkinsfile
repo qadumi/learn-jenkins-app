@@ -31,7 +31,7 @@ pipeline {
                     reuseNode true
                 }
             }
-            script {
+            steps {
                 // Install dependencies including jest-junit
                 sh 'npm install'
                 // Run the tests and generate the JUnit report
