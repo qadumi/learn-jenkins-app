@@ -23,42 +23,43 @@ pipeline {
             }
         }
         */
-    stage ('Test') {
-        agent {
+
+        stage('Test') {
+            agent {
                 docker {
                     image 'node:18-alpine'
                     reuseNode true
                 }
             }
-         script {
-            // Install dependencies including jest-junit
-            sh 'npm install'
-            // Run the tests and generate the JUnit report
-            sh 'npm test'
+            script {
+                // Install dependencies including jest-junit
+                sh 'npm install'
+                // Run the tests and generate the JUnit report
+                sh 'npm test'
+            }
         }
-    }
-}
-stage ('E2E') {
-        agent {
+
+        stage('E2E') {
+            agent {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.51.0-jammy'
                     reuseNode true
                 }
             }
-        steps {
-            sh '''
-            npm install serve
-            node_modules/.bin/serve -s build &
-            sleep 10
-            npx playwright test
-        '''
+            steps {
+                sh '''
+                npm install serve
+                node_modules/.bin/serve -s build &
+                sleep 10
+                npx playwright test
+                '''
+            }
+        }
     }
-}
-}
-post {
-    always {
-        junit '**/test-results/junit.xml'
-    }
-}
-}
 
+    post {
+        always {
+            junit '**/test-results/junit.xml'
+        }
+    }
+}
