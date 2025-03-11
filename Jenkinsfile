@@ -30,11 +30,12 @@ pipeline {
                     reuseNode true
                 }
             }
-        steps {
-            sh '''
-            #test -f build/index.html
-            npm test
-        '''
+         script {
+            // Install dependencies including jest-junit
+            sh 'npm install'
+            // Run the tests and generate the JUnit report
+            sh 'npm test'
+        }
     }
 }
 stage ('E2E') {
@@ -56,7 +57,7 @@ stage ('E2E') {
 }
 post {
     always {
-        junit 'test-results/junit.xml'
+        junit '**/test-results/junit.xml'
     }
 }
 }
