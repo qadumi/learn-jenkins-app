@@ -74,7 +74,7 @@ pipeline {
         }
 
       
-    }
+   
 stage('Deploy') {
             agent {
                 docker {
@@ -91,3 +91,4 @@ stage('Deploy') {
         }
     
 }
+ }
