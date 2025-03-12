@@ -25,6 +25,8 @@ pipeline {
         */
 
         stage('Test') {
+            parallel {
+                stage('Unittest') {
             agent {
                 docker {
                     image 'node:18-alpine'
@@ -57,6 +59,11 @@ pipeline {
                 '''
             }
         }
+
+            }
+        }
+
+      
     }
 
     post {
